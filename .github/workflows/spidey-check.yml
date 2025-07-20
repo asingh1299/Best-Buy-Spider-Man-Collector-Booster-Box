@@ -1,9 +1,12 @@
 name: Spiderman Checker
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: "*/5 * * * *" # every 5 minutes
-  workflow_dispatch: # allows manual triggering from GitHub UI
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   check_spiderman:
@@ -37,4 +40,4 @@ jobs:
 
       - name: Run Spidey Checker
         run: |
-          poetry run python bin/check_spiderman.py
+          poetry run python check_spiderman.py
