@@ -7,7 +7,7 @@ from spidey.email import email_user
 
 def main():
     SKU_ID = os.environ.get("SPIDERMAN_SKU", "6621977")
-    CHECK_INTERVAL_SECONDS = int(os.environ.get("CHECK_INTERVAL_SECONDS", "300"))
+    CHECK_INTERVAL_SECONDS = 30
 
     # Email config
     sender_email = os.environ["EMAIL_USER"]
@@ -26,7 +26,7 @@ def main():
     while True:
         available = check_if_best_buy_item_sellable(skuId=SKU_ID)
 
-        if available:
+        if not available:
             print("SPIDERMAN IS AVAILABLE! Sending email...")
             try:
                 for receiver_email in receiver_emails:
