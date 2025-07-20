@@ -40,4 +40,4 @@ jobs:
 
       - name: Run Spidey Checker
         run: |
-          poetry run python check_spiderman.py
+          poetry run python bin/check_spiderman.py
