@@ -23,7 +23,7 @@ def main():
 
     available = check_if_best_buy_item_sellable(skuId=SKU_ID)
 
-    if available:
+    if not available:
         print("SPIDERMAN IS AVAILABLE! Sending email...")
         try:
             for receiver_email in receiver_emails:
