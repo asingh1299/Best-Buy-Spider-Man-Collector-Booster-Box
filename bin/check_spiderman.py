@@ -7,24 +7,24 @@ from spidey.email import email_user
 def main():
     SKU_ID = os.environ.get("SPIDERMAN_SKU", "6621977")
 
-    # Email config
-    sender_email = os.environ["EMAIL_USER"]
-    receiver_emails = os.environ["EMAIL_RECIPIENTS"].split(",")
-    receiver_emails = [email.strip() for email in receiver_emails]
-    subject = "Test: SPIDERMAN AVAILABLE!"
-    body = f"Test: Spiderman (SKU {SKU_ID}) is now available at Best Buy!"
-
-    smtp_server = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    # Go to Google Accounts -> App passwords -> Create an app password for this script
-    smtp_password = os.environ["EMAIL_PASS"]
-
     print("Starting availability check...")
 
     available = check_if_best_buy_item_sellable(skuId=SKU_ID)
 
     if available:
         print("SPIDERMAN IS AVAILABLE! Sending email...")
+
+        # Email config
+        sender_email = os.environ["EMAIL_USER"]
+        receiver_emails = os.environ["EMAIL_RECIPIENTS"].split(",")
+        receiver_emails = [email.strip() for email in receiver_emails]
+        subject = "Test: SPIDERMAN AVAILABLE!"
+        body = f"Test: Spiderman (SKU {SKU_ID}) is now available at Best Buy!"
+
+        smtp_server = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
+        smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+        # Go to Google Accounts -> App passwords -> Create an app password for this script
+        smtp_password = os.environ["EMAIL_PASS"]
         try:
             for receiver_email in receiver_emails:
                 email_user(
