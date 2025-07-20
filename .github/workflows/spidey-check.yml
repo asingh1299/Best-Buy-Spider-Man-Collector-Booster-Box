@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Poetry
         run: |
-          pip install poetry
+          pipx install poetry
 
       - name: Install dependencies
         run: |
