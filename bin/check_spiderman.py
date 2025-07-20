@@ -1,5 +1,4 @@
 import os
-import time
 
 from spidey.best_buy import check_if_best_buy_item_sellable
 from spidey.email import email_user
@@ -7,7 +6,6 @@ from spidey.email import email_user
 
 def main():
     SKU_ID = os.environ.get("SPIDERMAN_SKU", "6621977")
-    CHECK_INTERVAL_SECONDS = 30
 
     # Email config
     sender_email = os.environ["EMAIL_USER"]
@@ -23,30 +21,26 @@ def main():
 
     print("Starting availability check...")
 
-    while True:
-        available = check_if_best_buy_item_sellable(skuId=SKU_ID)
+    available = check_if_best_buy_item_sellable(skuId=SKU_ID)
 
-        if not available:
-            print("SPIDERMAN IS AVAILABLE! Sending email...")
-            try:
-                for receiver_email in receiver_emails:
-                    email_user(
-                        sender_email=sender_email,
-                        receiver_email=receiver_email,
-                        subject=subject,
-                        body=body,
-                        smtp_server=smtp_server,
-                        smtp_port=smtp_port,
-                        smtp_password=smtp_password,
-                    )
-                print("Email(s) sent. Exiting loop.")
-                break
-            except Exception as e:
-                print(f"Error sending email: {e}")
-        else:
-            print("Still unavailable. Checking again in a few minutes...")
-
-        time.sleep(CHECK_INTERVAL_SECONDS)
+    if available:
+        print("SPIDERMAN IS AVAILABLE! Sending email...")
+        try:
+            for receiver_email in receiver_emails:
+                email_user(
+                    sender_email=sender_email,
+                    receiver_email=receiver_email,
+                    subject=subject,
+                    body=body,
+                    smtp_server=smtp_server,
+                    smtp_port=smtp_port,
+                    smtp_password=smtp_password,
+                )
+            print("Email(s) sent. Exiting loop.")
+        except Exception as e:
+            print(f"Error sending email: {e}")
+    else:
+        print("Still unavailable.")
 
 
 if __name__ == "__main__":
