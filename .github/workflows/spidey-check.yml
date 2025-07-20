@@ -1,0 +1,40 @@
+name: Spiderman Checker
+
+on:
+  schedule:
+    - cron: "*/5 * * * *" # every 5 minutes
+  workflow_dispatch: # allows manual triggering from GitHub UI
+
+jobs:
+  check_spiderman:
+    runs-on: ubuntu-latest
+
+    env:
+      EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+      EMAIL_USER: ${{ secrets.EMAIL_USER }}
+      EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+      SPIDERMAN_SKU: "6621977"
+      CHECK_INTERVAL_SECONDS: "300"
+      SMTP_SERVER: "smtp.gmail.com"
+      SMTP_PORT: "587"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install Poetry
+        run: |
+          pip install poetry
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
+      - name: Run Spidey Checker
+        run: |
+          poetry run python bin/check_spiderman.py

@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "Best-Buy-Spider-Man-Collector-Booster-Box"
+version = "0.1.0"
+description = "Checks Best Buy for Spiderman availability and sends email alerts"
+authors = ["Amitoj Singh <asingh1299@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "spidey", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
